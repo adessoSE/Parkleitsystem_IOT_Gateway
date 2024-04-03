@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IOT-Gatway config</title>
+</head>
+<body>
+<form th:action="@{/setGateway}" method="post">
+    <label for="ipInput">Software-Gateway IP:</label>
+    <input id="ipInput" type="text" th:placeholder="${placeholder}" name="ip">
+    <input type="submit" value="Save">
+    <div class="errorMsg" th:if="${invalidIp}">Invalid IP-Address</div>
+</form>
+<table>
+    <tr>
+        <th>Pico</th>
+        <th>Parkplatznummer</th>
+    </tr>
+    <tr th:each="pico : ${waiting}">
+        <td th:text="${pico}"></td>
+        <td>
+            <form th:action="@{/setParkingId}" method="post">
+                <input th:id="${pico}" type="text" placeholder="Parkplatznummer" name="id">
+                <input type="text" th:value="${pico}" name="ip" hidden>
+                <input type="submit" value="Send">
+                <div class="errorMsg" th:if="${invalidParkingId} == ${pico}">Pico not found</div>
+            </form>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
